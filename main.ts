@@ -20,8 +20,10 @@ namespace myTiles {
 `
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Projectile, function (sprite, otherSprite) {
-    info.setScore(0)
-    game.over(false)
+    game.over(false, effects.dissolve)
+})
+info.onCountdownEnd(function () {
+    game.over(true)
 })
 scene.setBackgroundImage(img`
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
@@ -146,7 +148,8 @@ a a . . . . . . . 3 . . . . . . . a . . . . . . . . . . . . . . . . . . . . . . 
 . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 `)
 effects.starField.startScreenEffect()
-game.showLongText("AVOID THE BLOCKS TO GAIN POINTS", DialogLayout.Bottom)
+info.setScore(0)
+game.showLongText("AVOID THE ENEMIES TO GAIN POINTS", DialogLayout.Bottom)
 music.playMelody("C5 A B G A F G E ", 120)
 let mySprite = sprites.create(img`
 . . . . f f f f f . . . . . . . 
@@ -166,7 +169,9 @@ c c c c c d d d e e f c . f e f
 . . . f d d c d d b b d f . . . 
 . . . . f f f f f f f f f . . . 
 `, SpriteKind.Player)
-controller.moveSprite(mySprite)
+mySprite.setPosition(80, 120)
+controller.moveSprite(mySprite, 100, 0)
+info.startCountdown(600)
 let mySprite2 = sprites.create(img`
 . . . . . . f f f f . . . . . . . . . . . . . . 
 . . . . f f f 2 2 f f f . . . . . . . . . . . . 
@@ -347,3 +352,10 @@ f e f e 4 4 e b f 4 4 e e f . . . . . . . . . .
 mySprite7.setPosition(Math.randomRange(0, 160), 0)
 mySprite7.setVelocity(Math.randomRange(0, 40), 50)
 mySprite7.setFlag(SpriteFlag.BounceOnWall, true)
+for (let index = 0; index < 100000000; index++) {
+    pause(100)
+    info.changeScoreBy(1)
+}
+forever(function () {
+	
+})
